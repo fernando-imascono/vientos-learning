@@ -16,7 +16,7 @@ Nothing to implement. Confirm the machinery works before you build on it.
 - [ ] `cp .env.example .env` and fill in the keys (OpenRouter from Imascono, Reducto from your free credits)
 - [ ] `pnpm infra:up` — PostgreSQL on 5432
 - [ ] `pnpm dev` — API on 3001, web on 5173
-- [ ] `pnpm inngest:dev` in a second terminal — the dev server at 8288 should discover zero functions and not error
+- [ ] `pnpm inngest:dev` in a second terminal — the dev server at 8288 should discover the two registered functions (`process-document`, `process-request`) and not error. Their bodies are still TODOs; registration is what is being checked here
 - [ ] Open http://localhost:5173 and see the two sections with their TODO panels
 - [ ] `pnpm lint && pnpm typecheck && pnpm knip` — all green on a fresh clone
 
