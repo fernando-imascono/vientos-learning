@@ -1,0 +1,54 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error"
+  },
+  "plugins": ["react", "unicorn", "typescript", "oxc", "jsx-a11y"],
+  "options": {
+    "typeAware": true
+  },
+  "jsPlugins": ["./linter-plugins/index.js"],
+  "rules": {
+    "eslint/max-lines": ["error", { "max": 300, "skipBlankLines": true, "skipComments": true }],
+    "eslint/complexity": ["error", { "max": 8, "variant": "modified" }],
+    "eslint/max-depth": ["error", { "max": 3 }],
+    "eslint/max-lines-per-function": [
+      "error",
+      { "max": 50, "skipBlankLines": true, "skipComments": true }
+    ],
+    "eslint/max-params": ["error", { "max": 3 }],
+    "eslint/no-nested-ternary": "error",
+    "typescript/no-deprecated": "error",
+    "local/no-exported-function-expressions": "error",
+    "local/no-lint-disable": "error",
+    "local/test-file-location": "error"
+  },
+  "overrides": [
+    {
+      "files": ["**/*.tsx"],
+      "rules": {
+        "eslint/max-lines-per-function": [
+          "error",
+          { "max": 75, "skipBlankLines": true, "skipComments": true }
+        ]
+      }
+    },
+    {
+      "files": ["**/*.test.{js,ts,tsx}"],
+      "plugins": ["vitest"],
+      "rules": {
+        "eslint/max-lines-per-function": [
+          "error",
+          { "max": 150, "skipBlankLines": true, "skipComments": true }
+        ],
+        "vitest/max-nested-describe": ["error", { "max": 2 }],
+        "vitest/no-focused-tests": "error",
+        "vitest/no-identical-title": "error",
+        "vitest/no-conditional-expect": "error",
+        "vitest/no-standalone-expect": "error",
+        "vitest/no-disabled-tests": "error"
+      }
+    }
+  ]
+}

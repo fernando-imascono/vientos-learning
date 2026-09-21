@@ -1,0 +1,9 @@
+{
+  "threshold": 2,
+  "minLines": 5,
+  "minTokens": 50,
+  "reporters": ["console"],
+  "gitignore": true,
+  "mode": "weak",
+  "format": ["typescript", "tsx", "javascript"]
+}

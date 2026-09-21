@@ -1,0 +1,12 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+  - "linter-plugins"
+
+# Mitigate supply chain attacks by quarantining new releases for 2 days.
+# Compromised packages are usually detected and pulled within hours.
+minimumReleaseAge: 2880
+
+onlyBuiltDependencies:
+  - esbuild
+  - protobufjs

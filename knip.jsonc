@@ -1,0 +1,69 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "includeEntryExports": true,
+
+  // An export tagged `@scaffold` in its JSDoc is one the TODOs will consume.
+  // Same deal as the `ignore` list below: remove the tag from the export as
+  // soon as something imports it.
+  "tags": ["-scaffold"],
+
+  // ---------------------------------------------------------------------
+  // This block is a to-do list, not configuration you should leave alone.
+  //
+  // Every entry below exists because the module or dependency it names is
+  // scaffolded but not wired up yet. As you implement each TODO(n.m) and the
+  // thing starts being imported for real, DELETE its line here. When the list
+  // is empty the project is done, and from then on knip is doing its actual
+  // job: telling you about code nobody uses.
+  //
+  // Do not add to it to silence a genuine finding.
+  // ---------------------------------------------------------------------
+  "ignore": [
+    "apps/api/src/agent/model.ts", //            wired up by TODO(6.7)
+    "apps/api/src/agent/prompt.ts", //           wired up by TODO(6.5)
+    "apps/api/src/agent/purchase-agent.ts", //   wired up by TODO(6.7)
+    "apps/api/src/agent/tools.ts", //            wired up by TODO(6.6)
+    "apps/api/src/domain/decision.ts", //        wired up by TODO(7.1)
+    "apps/api/src/domain/pricing.ts", //         wired up by TODO(7.2)
+    "apps/api/src/services/file-storage.ts", //  wired up by TODO(2.2)
+    "apps/api/src/services/reducto.ts", //       wired up by TODO(3.5)
+    "apps/web/src/features/knowledge-base/api.ts", // wired up by TODO(4.1)
+    "apps/web/src/features/requests/api.ts", //  wired up by TODO(5.4)
+    "apps/web/src/lib/api-client.ts", //          wired up by TODO(4.1)
+  ],
+
+  "workspaces": {
+    "apps/api": {
+      "entry": ["src/index.ts", "src/db/migrate.ts", "src/db/seed.ts"],
+      "project": ["src/**/*.ts"],
+      "ignoreDependencies": [
+        "ai", //                        imported by TODO(6.7)
+        "@openrouter/ai-sdk-provider", //imported by agent/model.ts, live at TODO(6.7)
+        "@hono/zod-validator", //         imported by TODO(2.1) and TODO(5.1)
+      ],
+    },
+    "apps/web": {
+      "entry": ["src/main.tsx"],
+      "project": ["src/**/*.{ts,tsx}"],
+      "ignoreDependencies": [
+        "zod", //             imported by api-client.ts, live at TODO(4.1)
+        "@vientos/shared", //  imported by the hooks at TODO(4.1) and TODO(5.4)
+      ],
+    },
+    "packages/shared": {
+      // The public contract of this package. Its exports are meant to be
+      // consumed by the two apps, so an unused one here is expected until the
+      // app that needs it exists.
+      "includeEntryExports": false,
+      "project": ["src/**/*.ts"],
+    },
+    "packages/e2e": {
+      "entry": ["tests/**/*.spec.ts"],
+      "project": ["**/*.ts"],
+    },
+    "linter-plugins": {
+      "entry": ["index.js"],
+      "project": ["**/*.js"],
+    },
+  },
+}

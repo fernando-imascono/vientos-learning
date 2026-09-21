@@ -1,0 +1,27 @@
+{
+  "$schema": "../../node_modules/oxlint/configuration_schema.json",
+  "extends": ["../../.oxlintrc.json"],
+  "jsPlugins": ["eslint-plugin-playwright"],
+  "rules": {
+    "playwright/no-focused-test": "error",
+    "playwright/no-conditional-expect": "error",
+    "playwright/expect-expect": "error",
+    "playwright/no-standalone-expect": "error",
+    "playwright/missing-playwright-await": "error",
+    "playwright/no-wait-for-timeout": "error",
+    "playwright/no-page-pause": "error",
+    "playwright/no-force-option": "error",
+    "playwright/max-nested-describe": ["error", { "max": 2 }]
+  },
+  "overrides": [
+    {
+      "files": ["**/*.spec.{js,ts,tsx}"],
+      "rules": {
+        "eslint/max-lines-per-function": [
+          "error",
+          { "max": 150, "skipBlankLines": true, "skipComments": true }
+        ]
+      }
+    }
+  ]
+}

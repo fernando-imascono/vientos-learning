@@ -1,0 +1,20 @@
+{
+  "extends": "@vientos/typescript-config/node.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "outDir": "dist",
+    "rootDir": "src",
+    // The source imports siblings as `./thing.ts` so `tsx` and Node's own type
+    // stripping run it unbuilt. These two let `tsc` still emit real JS:
+    // the first accepts the specifier, the second rewrites it to `./thing.js`.
+    // The API is an application, not a library: nothing imports its types, and
+    // emitting declarations would force tsc to name types from transitively
+    // linked packages that pnpm does not hoist.
+    "declaration": false,
+    "declarationMap": false,
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true
+  },
+  "include": ["src/**/*.ts"]
+}

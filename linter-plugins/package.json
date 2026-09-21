@@ -1,0 +1,17 @@
+{
+  "name": "linter-plugins",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./index.js"
+  },
+  "scripts": {
+    "lint": "oxlint --fix",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@oxlint/plugins": "1.83.0",
+    "vitest": "5.0.1"
+  }
+}

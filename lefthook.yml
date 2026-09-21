@@ -1,0 +1,25 @@
+# Local git hooks only. Nothing here deploys or talks to a remote service —
+# every command runs on your machine against the working tree.
+pre-commit:
+  piped: true
+  commands:
+    format:
+      priority: 1
+      run: pnpm format
+      stage_fixed: true
+    lint:
+      priority: 2
+      run: pnpm lint
+      stage_fixed: true
+    knip:
+      priority: 3
+      run: pnpm knip
+    jscpd:
+      priority: 4
+      run: pnpm jscpd
+    typecheck:
+      priority: 5
+      run: pnpm typecheck
+    test:
+      priority: 6
+      run: pnpm test

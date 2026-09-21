@@ -1,0 +1,38 @@
+{
+  "name": "vientos-purchase-requests",
+  "private": true,
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "typecheck": "turbo run typecheck",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "test:e2e": "pnpm --filter @vientos/e2e test:e2e",
+    "format": "oxfmt --write .",
+    "format:check": "oxfmt --check .",
+    "knip": "knip",
+    "jscpd": "jscpd .",
+    "db:generate": "pnpm --filter @vientos/api db:generate",
+    "db:migrate": "pnpm --filter @vientos/api db:migrate",
+    "db:seed": "pnpm --filter @vientos/api db:seed",
+    "db:studio": "pnpm --filter @vientos/api db:studio",
+    "infra:up": "docker compose up -d",
+    "infra:down": "docker compose down",
+    "inngest:dev": "npx inngest-cli@latest dev -u http://localhost:3001/api/inngest",
+    "prepare": "lefthook install"
+  },
+  "devDependencies": {
+    "jscpd": "5.3.0",
+    "knip": "6.37.0",
+    "lefthook": "2.1.14",
+    "oxfmt": "0.68.0",
+    "oxlint": "1.83.0",
+    "oxlint-tsgolint": "7.0.2002",
+    "turbo": "2.11.2",
+    "typescript": "5.9.3"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@10.18.1"
+}

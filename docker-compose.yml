@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: vientos-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: vientos
+      POSTGRES_PASSWORD: vientos
+      POSTGRES_DB: vientos
+    ports:
+      - "5432:5432"
+    volumes:
+      - vientos-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vientos -d vientos"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  vientos-pgdata:

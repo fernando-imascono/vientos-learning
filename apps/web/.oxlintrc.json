@@ -1,0 +1,19 @@
+{
+  "$schema": "../../node_modules/oxlint/configuration_schema.json",
+  "extends": ["../../.oxlintrc.json"],
+  "plugins": ["eslint", "typescript", "unicorn", "oxc", "react", "jsx-a11y"],
+  "jsPlugins": [{ "name": "tanstack-query", "specifier": "@tanstack/eslint-plugin-query" }],
+  "rules": {
+    "react/rules-of-hooks": "error",
+    "react/only-export-components": ["error", { "allowConstantExport": true }],
+    "react/react-in-jsx-scope": "off",
+    "tanstack-query/exhaustive-deps": "error",
+    "tanstack-query/no-rest-destructuring": "error",
+    "tanstack-query/stable-query-client": "error",
+    "tanstack-query/no-unstable-deps": "error",
+    "tanstack-query/infinite-query-property-order": "error",
+    "tanstack-query/no-void-query-fn": "error",
+    "tanstack-query/mutation-property-order": "error",
+    "local/match-component-filename": "error"
+  }
+}

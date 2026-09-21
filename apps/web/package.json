@@ -1,0 +1,31 @@
+{
+  "name": "@vientos/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "lint": "oxlint --fix"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "5.103.2",
+    "@vientos/shared": "workspace:*",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "react-router": "7.18.4",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@tanstack/eslint-plugin-query": "5.103.1",
+    "@tanstack/react-query-devtools": "5.103.2",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vientos/typescript-config": "workspace:*",
+    "@vitejs/plugin-react": "6.1.1",
+    "typescript": "5.9.3",
+    "vite": "8.3.0"
+  }
+}

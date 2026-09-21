@@ -1,0 +1,25 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# build output
+dist/
+build/
+.turbo/
+*.tsbuildinfo
+
+# env — never commit real credentials, only .env.example
+.env
+.env.*
+!.env.example
+
+# uploaded SOP files (persistent across restarts, but not versioned)
+storage/**
+!storage/.gitkeep
+!storage/documents/.gitkeep
+
+# editors / os
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea/

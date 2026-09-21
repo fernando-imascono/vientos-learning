@@ -1,0 +1,237 @@
+/*
+ * Imascono design tokens, trimmed to what this app needs.
+ * Monochromatic slate, near-square corners, hairline borders, flat surfaces.
+ * Inter for text, DM Mono for eyebrows, labels and figures.
+ */
+:root {
+  --slate-950: #0e1a26;
+  --slate-800: #3a4f5f;
+  --slate-700: #475a6c;
+  --slate-600: #647483;
+  --slate-500: #8a9baa;
+  --slate-400: #a3b1be;
+  --slate-300: #ced4d8;
+  --slate-200: #e8ecf0;
+  --slate-100: #f2f5f8;
+  --slate-50: #f8fafc;
+  --white: #ffffff;
+
+  --brand: var(--slate-700);
+  --surface-page: var(--slate-100);
+  --surface-card: var(--white);
+  --surface-sunken: var(--slate-200);
+  --surface-inverse: var(--slate-950);
+  --text-strong: var(--slate-950);
+  --text-body: var(--slate-800);
+  --text-muted: var(--slate-600);
+  --text-subtle: var(--slate-500);
+  --border: var(--slate-300);
+  --border-subtle: var(--slate-200);
+  --focus-ring: rgba(71, 90, 108, 0.35);
+
+  --font-display: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "DM Mono", "SFMono-Regular", ui-monospace, Menlo, monospace;
+
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --container-max: 1200px;
+  --tracking-eyebrow: 0.14em;
+  --shadow-sm: 0 1px 2px rgba(14, 26, 38, 0.05);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--surface-page);
+  color: var(--text-body);
+  font-family: var(--font-display);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--text-strong);
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  line-height: 1.12;
+  margin: 0;
+  text-wrap: balance;
+}
+h1 {
+  font-size: 42px;
+}
+h2 {
+  font-size: 24px;
+}
+h3 {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  /* --text-muted is only 4.39:1 on --surface-page, and at 11px WCAG AA wants
+     4.5:1. --brand gets 6.51:1 and is still the quiet slate the brand asks for. */
+  color: var(--brand);
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  background: var(--surface-inverse);
+  color: var(--white);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.app-header__inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-6);
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-6);
+  flex-wrap: wrap;
+}
+.app-header__brand {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--white);
+}
+.app-nav {
+  display: flex;
+  gap: var(--space-5);
+}
+.app-nav a {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  text-decoration: none;
+  color: var(--slate-400);
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+}
+.app-nav a:hover {
+  color: var(--white);
+}
+.app-nav a[aria-current="page"] {
+  color: var(--white);
+  border-bottom-color: var(--white);
+}
+
+.app-main {
+  flex: 1;
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: var(--space-7) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.card {
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+}
+
+.todo-card {
+  background: var(--surface-card);
+  border: 1px dashed var(--border-strong, var(--slate-400));
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.todo-card code {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  background: var(--surface-sunken);
+  border-radius: var(--radius-sm);
+  padding: 1px 5px;
+  /* Inherited --text-muted is 4.05:1 on --surface-sunken; this is 14.81:1. */
+  color: var(--text-strong);
+}
+.todo-card ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--text-muted);
+}
+.todo-card li {
+  margin-bottom: 4px;
+}
+
+button {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--brand);
+  background: var(--brand);
+  color: var(--white);
+  min-height: 44px;
+  padding: 0 20px;
+  cursor: pointer;
+}
+button:hover {
+  background: var(--slate-800);
+  border-color: var(--slate-800);
+}
+button:active {
+  transform: translateY(1px);
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+input,
+textarea {
+  font-family: inherit;
+  font-size: 16px;
+  width: 100%;
+  padding: var(--space-3);
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-strong);
+}
+
+@media (max-width: 640px) {
+  .app-header__inner,
+  .app-main {
+    padding-inline: var(--space-4);
+  }
+  h1 {
+    font-size: 32px;
+  }
+}

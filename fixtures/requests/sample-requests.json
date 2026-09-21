@@ -1,0 +1,44 @@
+[
+  {
+    "id": "continue",
+    "text": "Necesito comprar dos monitores 4K de 27 pulgadas para el equipo de diseño",
+    "expected": "continue",
+    "why": "2 x 229.00 EUR = 458.00 EUR, at or below the 500 EUR threshold in SOP 4.1."
+  },
+  {
+    "id": "approval",
+    "text": "Necesito tres monitores 4K de 27 pulgadas para los nuevos incorporados",
+    "expected": "require_approval",
+    "why": "3 x 229.00 EUR = 687.00 EUR, above the 500 EUR threshold in SOP 4.2."
+  },
+  {
+    "id": "approval-single-item",
+    "text": "Quiero una mesa elevable para mi puesto",
+    "expected": "require_approval",
+    "why": "619.00 EUR from a single item. Checks that the threshold is read per request, not per unit."
+  },
+  {
+    "id": "blocked-category",
+    "text": "Compra dos tarjetas regalo de 50 euros para el sorteo del equipo",
+    "expected": "block",
+    "why": "Gift cards are prohibited by SOP 5.1 regardless of the 100.00 EUR amount."
+  },
+  {
+    "id": "blocked-not-in-catalog",
+    "text": "Necesito una cafetera para la cocina de la oficina",
+    "expected": "block",
+    "why": "Not a catalog item. SOP 3.2 says the request must not proceed."
+  },
+  {
+    "id": "blocked-incomplete",
+    "text": "Necesito material para la oficina",
+    "expected": "block",
+    "why": "Nothing identifiable to buy. SOP 6.1 — and no authorisation is assumed."
+  },
+  {
+    "id": "rule-change",
+    "text": "Necesito tres monitores 4K de 27 pulgadas para los nuevos incorporados",
+    "expected": "continue",
+    "why": "Same text as 'approval'. Raise the SOP 4.1 threshold to 1000 EUR, re-export, re-upload, resend as a NEW request: the decision changes with no code or prompt edit. The earlier request keeps the SOP it started with."
+  }
+]

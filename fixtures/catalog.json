@@ -1,0 +1,70 @@
+[
+  {
+    "sku": "MON-27-4K",
+    "name": "27\" 4K monitor",
+    "category": "displays",
+    "unitPriceCents": 22900
+  },
+  {
+    "sku": "MON-34-UW",
+    "name": "34\" ultrawide monitor",
+    "category": "displays",
+    "unitPriceCents": 54900
+  },
+  {
+    "sku": "KEY-MECH",
+    "name": "Mechanical keyboard",
+    "category": "peripherals",
+    "unitPriceCents": 8900
+  },
+  {
+    "sku": "MOU-ERGO",
+    "name": "Ergonomic mouse",
+    "category": "peripherals",
+    "unitPriceCents": 6500
+  },
+  {
+    "sku": "HEAD-ANC",
+    "name": "Noise-cancelling headset",
+    "category": "peripherals",
+    "unitPriceCents": 17900
+  },
+  {
+    "sku": "DOCK-TB4",
+    "name": "Thunderbolt 4 dock",
+    "category": "peripherals",
+    "unitPriceCents": 21900
+  },
+  {
+    "sku": "CHAIR-ERGO",
+    "name": "Ergonomic office chair",
+    "category": "furniture",
+    "unitPriceCents": 38900
+  },
+  { "sku": "DESK-SIT", "name": "Sit-stand desk", "category": "furniture", "unitPriceCents": 61900 },
+  { "sku": "LAMP-DESK", "name": "Desk lamp", "category": "furniture", "unitPriceCents": 4900 },
+  {
+    "sku": "LIC-DESIGN",
+    "name": "Design suite licence (1 year)",
+    "category": "software",
+    "unitPriceCents": 71900
+  },
+  {
+    "sku": "LIC-IDE",
+    "name": "IDE licence (1 year)",
+    "category": "software",
+    "unitPriceCents": 19900
+  },
+  {
+    "sku": "GIFT-50",
+    "name": "Gift card, 50 EUR",
+    "category": "gift_cards",
+    "unitPriceCents": 5000
+  },
+  {
+    "sku": "GIFT-100",
+    "name": "Gift card, 100 EUR",
+    "category": "gift_cards",
+    "unitPriceCents": 10000
+  }
+]
