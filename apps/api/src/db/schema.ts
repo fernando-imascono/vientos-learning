@@ -16,7 +16,9 @@
  * Tip: `pnpm db:generate` writes the SQL, `pnpm db:migrate` applies it. Never
  * hand-edit a generated migration that has already run.
  */
-import { pgTable } from "drizzle-orm/pg-core";
+import type { AgentProposal } from "@vientos/shared";
+import { documentStatuses, requestStatuses } from "@vientos/shared";
+import { pgTable, pgEnum, integer, varchar, timestamp, jsonb } from "drizzle-orm/pg-core";
 
 // TODO(1.1): `catalogItems` — the local product catalog.
 //   Small and synthetic: a handful of rows across 3-4 categories, one of which
@@ -24,7 +26,15 @@ import { pgTable } from "drizzle-orm/pg-core";
 //   quantities, no tax and no discounts, so a numeric/decimal type buys you
 //   nothing but rounding bugs.
 export const catalogItems = pgTable("catalog_items", {
-  // ...
+  sku: varchar().primaryKey(),
+  name: varchar().notNull(),
+  category: varchar().notNull(),
+  unitPriceCents: integer().notNull(),
+  createdAt: timestamp().defaultNow().notNull(),
+  updatedAt: timestamp()
+    .defaultNow()
+    .notNull()
+    .$onUpdate(() => new Date()),
 });
 
 // TODO(1.2): `knowledgeDocuments` — one row per uploaded SOP PDF.
@@ -34,8 +44,22 @@ export const catalogItems = pgTable("catalog_items", {
 //   Decide now how "the one active SOP" is represented — a boolean, a
 //   timestamp, or simply "the most recent available document". Whichever you
 //   pick, a request must pin the concrete document id, not the rule.
+
+export const documentStatusEnum = pgEnum("document_status", documentStatuses);
 export const knowledgeDocuments = pgTable("knowledge_documents", {
-  // ...
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  filename: varchar().notNull(),
+  byteSize: integer().notNull(),
+  pathFile: varchar().notNull(),
+  status: documentStatusEnum().notNull().default("processing"),
+  extractedText: varchar(),
+  failureReason: varchar(),
+  activatedAt: timestamp(),
+  createdAt: timestamp().defaultNow().notNull(),
+  updatedAt: timestamp()
+    .defaultNow()
+    .notNull()
+    .$onUpdate(() => new Date()),
 });
 
 // TODO(1.3): `purchaseRequests` — one row per submitted request.
@@ -45,15 +69,42 @@ export const knowledgeDocuments = pgTable("knowledge_documents", {
 //   total, timestamps.
 //   Think about where the Inngest run id goes — you will want it when a run
 //   fails and you are staring at a stuck row.
+export const requestStatusesEnum = pgEnum("request_status", requestStatuses);
 export const purchaseRequests = pgTable("purchase_requests", {
-  // ...
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  requestText: varchar().notNull(),
+  status: requestStatusesEnum().notNull().default("received"),
+  knowledgeDocumentId: integer().references(() => knowledgeDocuments.id),
+  proposal: jsonb().$type<AgentProposal>(),
+  decision: jsonb(),
+  totalCents: integer(),
+  inngestRunId: varchar(),
+  createdAt: timestamp().defaultNow().notNull(),
+  updatedAt: timestamp()
+    .defaultNow()
+    .notNull()
+    .$onUpdate(() => new Date()),
 });
 
 // TODO(1.4): `purchaseRequestItems` — the priced line items.
 //   Store the unit price AS IT WAS at decision time, not a join to the catalog:
 //   the catalog can change, a decided request cannot.
 export const purchaseRequestItems = pgTable("purchase_request_items", {
-  // ...
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  purchaseRequestId: integer()
+    .references(() => purchaseRequests.id)
+    .notNull(),
+  sku: varchar()
+    .references(() => catalogItems.sku)
+    .notNull(),
+  quantity: integer().notNull(),
+  unitPriceCents: integer().notNull(),
+  lineTotalCents: integer().notNull(),
+  createdAt: timestamp().defaultNow().notNull(),
+  updatedAt: timestamp()
+    .defaultNow()
+    .notNull()
+    .$onUpdate(() => new Date()),
 });
 
 // TODO(1.5): `orders` — the record created when a request is allowed to continue.
@@ -62,7 +113,16 @@ export const purchaseRequestItems = pgTable("purchase_request_items", {
 //   what makes "recovery without duplicate orders" true even if an Inngest step
 //   runs twice — see docs/03-learning-path.md, step 10.
 export const orders = pgTable("orders", {
-  // ...
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  purchaseRequestId: integer()
+    .references(() => purchaseRequests.id)
+    .unique()
+    .notNull(),
+  createdAt: timestamp().defaultNow().notNull(),
+  updatedAt: timestamp()
+    .defaultNow()
+    .notNull()
+    .$onUpdate(() => new Date()),
 });
 
 // TODO(1.6 — optional, do it once step 8 is working): `approvalDecisions`
