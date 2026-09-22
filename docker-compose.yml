@@ -8,7 +8,9 @@ services:
       POSTGRES_PASSWORD: vientos
       POSTGRES_DB: vientos
     ports:
-      - "5432:5432"
+      # Host port is overridable: another project may already hold 5432.
+      # Set POSTGRES_PORT in .env and keep DATABASE_URL in sync.
+      - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - vientos-pgdata:/var/lib/postgresql/data
     healthcheck:
