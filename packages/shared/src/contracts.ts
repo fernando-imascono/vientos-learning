@@ -20,7 +20,10 @@ import { documentStatusSchema, purchaseRouteSchema, requestStatusSchema } from "
 //   Prices come from the catalog, never from the agent — keep the field name
 //   explicit (`unitPriceCents`) so nobody mistakes euros for cents.
 export const catalogItemSchema = z.object({
-  // ...
+  sku: z.string().nonempty(),
+  name: z.string().nonempty(),
+  category: z.string().min(1),
+  unitPriceCents: z.int().nonnegative(),
 });
 export type CatalogItem = z.infer<typeof catalogItemSchema>;
 
