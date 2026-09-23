@@ -14,6 +14,8 @@ build/
 !.env.example
 
 # uploaded SOP files (persistent across restarts, but not versioned)
+# STORAGE_DIR resolves from the process cwd, which is apps/api under `pnpm dev`.
+apps/api/storage/
 storage/**
 !storage/.gitkeep
 !storage/documents/.gitkeep
