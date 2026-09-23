@@ -18,7 +18,7 @@
  */
 import type { AgentProposal } from "@vientos/shared";
 import { documentStatuses, requestStatuses } from "@vientos/shared";
-import { pgTable, pgEnum, integer, varchar, timestamp, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, pgEnum, integer, varchar, timestamp, jsonb, uuid } from "drizzle-orm/pg-core";
 
 // TODO(1.1): `catalogItems` — the local product catalog.
 //   Small and synthetic: a handful of rows across 3-4 categories, one of which
@@ -47,7 +47,7 @@ export const catalogItems = pgTable("catalog_items", {
 
 export const documentStatusEnum = pgEnum("document_status", documentStatuses);
 export const knowledgeDocuments = pgTable("knowledge_documents", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  id: uuid().primaryKey().defaultRandom(),
   filename: varchar().notNull(),
   byteSize: integer().notNull(),
   pathFile: varchar().notNull(),
@@ -71,10 +71,10 @@ export const knowledgeDocuments = pgTable("knowledge_documents", {
 //   fails and you are staring at a stuck row.
 export const requestStatusesEnum = pgEnum("request_status", requestStatuses);
 export const purchaseRequests = pgTable("purchase_requests", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  id: uuid().primaryKey().defaultRandom(),
   requestText: varchar().notNull(),
   status: requestStatusesEnum().notNull().default("received"),
-  knowledgeDocumentId: integer().references(() => knowledgeDocuments.id),
+  knowledgeDocumentId: uuid().references(() => knowledgeDocuments.id),
   proposal: jsonb().$type<AgentProposal>(),
   decision: jsonb(),
   totalCents: integer(),
@@ -90,8 +90,8 @@ export const purchaseRequests = pgTable("purchase_requests", {
 //   Store the unit price AS IT WAS at decision time, not a join to the catalog:
 //   the catalog can change, a decided request cannot.
 export const purchaseRequestItems = pgTable("purchase_request_items", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  purchaseRequestId: integer()
+  id: uuid().primaryKey().defaultRandom(),
+  purchaseRequestId: uuid()
     .references(() => purchaseRequests.id)
     .notNull(),
   sku: varchar()
@@ -113,8 +113,8 @@ export const purchaseRequestItems = pgTable("purchase_request_items", {
 //   what makes "recovery without duplicate orders" true even if an Inngest step
 //   runs twice — see docs/03-learning-path.md, step 10.
 export const orders = pgTable("orders", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  purchaseRequestId: integer()
+  id: uuid().primaryKey().defaultRandom(),
+  purchaseRequestId: uuid()
     .references(() => purchaseRequests.id)
     .unique()
     .notNull(),
