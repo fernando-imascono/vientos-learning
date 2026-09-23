@@ -20,7 +20,7 @@ import { z } from "zod";
 
 export const documentUploaded = eventType(events.documentUploaded, {
   schema: z.object({
-    // documentId: z.uuid(),
+    documentId: z.uuid(),
   }),
 });
 

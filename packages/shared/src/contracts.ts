@@ -38,10 +38,20 @@ export type CatalogItem = z.infer<typeof catalogItemSchema>;
 //   Decide whether the extracted text ships with the list item or only with
 //   the detail response — the list will be much lighter if it does not.
 export const knowledgeDocumentSchema = z.object({
+  id: z.uuid(),
+  filename: z.string().nonempty(),
   status: documentStatusSchema,
-  // ...
+  failureReason: z.string().nullable(),
+  byteSize: z.int().positive(),
+  activatedAt: z.iso.datetime().nullable(),
+  createdAt: z.iso.datetime(),
 });
 export type KnowledgeDocument = z.infer<typeof knowledgeDocumentSchema>;
+
+export const knowledgeDocumentDetailSchema = knowledgeDocumentSchema.extend({
+  extractedText: z.string().nullable(),
+});
+export type KnowledgeDocumentDetail = z.infer<typeof knowledgeDocumentDetailSchema>;
 
 // ---------------------------------------------------------------------------
 // Purchase requests
