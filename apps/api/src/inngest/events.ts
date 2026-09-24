@@ -26,7 +26,7 @@ export const documentUploaded = eventType(events.documentUploaded, {
 
 export const requestSubmitted = eventType(events.requestSubmitted, {
   schema: z.object({
-    // requestId: z.uuid(),
+    requestId: z.uuid(),
   }),
 });
 
@@ -36,7 +36,7 @@ export const requestSubmitted = eventType(events.requestSubmitted, {
  */
 export const approvalDecided = eventType(events.approvalDecided, {
   schema: z.object({
-    // requestId: z.uuid(),
-    // approved: z.boolean(),
+    requestId: z.uuid(),
+    approved: z.boolean(),
   }),
 });
