@@ -26,7 +26,6 @@
     "apps/api/src/domain/decision.ts", //        wired up by TODO(7.1)
     "apps/api/src/domain/pricing.ts", //         wired up by TODO(7.2)
     "apps/api/src/services/file-storage.ts", //  wired up by TODO(2.2)
-    "apps/api/src/services/reducto.ts", //       wired up by TODO(3.5)
     "apps/web/src/features/knowledge-base/api.ts", // wired up by TODO(4.1)
     "apps/web/src/features/requests/api.ts", //  wired up by TODO(5.4)
     "apps/web/src/lib/api-client.ts", //          wired up by TODO(4.1)
