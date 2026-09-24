@@ -54,10 +54,7 @@ export async function extractDocument(input: {
     response = await client.parse.run({ input: upload.file_id });
   } catch (error) {
     if (error instanceof APIError && PERMANENT_STATUSES.has(error.status ?? 0)) {
-      throw new ExtractionFailedError(
-        `Reducto rejected the document (${error.status}): ${error.message}`,
-        true,
-      );
+      throw new ExtractionFailedError(`${readableDetail(error)} (Reducto ${error.status})`, true);
     }
     throw error;
   }
@@ -97,8 +94,21 @@ export async function extractDocument(input: {
  * a configuration problem, not the PDF's fault, so it is rethrown and shows up
  * as a failed run in Inngest. 404 is left out because the upload and the parse
  * run in the same step: a retry uploads the file again.
+ * 415 is what a truncated or corrupt PDF gets (`DOCUMENT_EMPTY`), seen by
+ * uploading one: before it was listed here, it was retried and ended with the
+ * generic reason.
  */
-const PERMANENT_STATUSES = new Set([400, 413, 422]);
+const PERMANENT_STATUSES = new Set([400, 413, 415, 422]);
+
+/**
+ * `error.message` is the status plus the raw JSON body, which is not something
+ * to show on the Knowledge Base screen. Reducto's body carries a sentence in
+ * `detail`; fall back to the SDK's message when it does not.
+ */
+function readableDetail(error: APIError): string {
+  const body = z.object({ detail: z.string() }).safeParse(error.error);
+  return body.success ? body.data.detail : error.message;
+}
 
 /** Large results come back as a presigned URL instead of inline chunks. */
 async function fetchChunks(url: string): Promise<Chunk[]> {
@@ -118,6 +128,13 @@ type Chunk = z.infer<typeof urlResultSchema>["chunks"][number];
 const SKIPPED_BLOCKS = new Set(["Header", "Footer", "Page Number"]);
 
 /**
+ * What Reducto puts in `content` for a page with nothing on it, instead of an
+ * empty string. Seen on a blank PDF: without this it was stored as the whole
+ * SOP and the document became `available`.
+ */
+const EMPTY_PLACEHOLDER = /^\s*<empty\s*\/>\s*$/;
+
+/**
  * One block per paragraph, with Markdown markers on titles and headings so the
  * agent can quote "5.2 Purchases above 500 EUR require approval" with its
  * section. List items keep the numbering Reducto already put in `content`.
@@ -125,7 +142,12 @@ const SKIPPED_BLOCKS = new Set(["Header", "Footer", "Page Number"]);
 function flatten(chunks: Chunk[]): string {
   return chunks
     .flatMap((chunk) => chunk.blocks)
-    .filter((block) => !SKIPPED_BLOCKS.has(block.type) && block.content.trim() !== "")
+    .filter(
+      (block) =>
+        !SKIPPED_BLOCKS.has(block.type) &&
+        block.content.trim() !== "" &&
+        !EMPTY_PLACEHOLDER.test(block.content),
+    )
     .map((block) => {
       if (block.type === "Title") return `# ${block.content}`;
       if (block.type === "Section Header") return `## ${block.content}`;
